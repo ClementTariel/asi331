@@ -6,7 +6,7 @@ M1 = "ALICE CERTIFIE QU ELLE DOIT DIX MILLE DEUX CENTS EUROS ET TRENTE CENTIMES 
 def hash_of(m):
 	return int(sha256(str(m).encode()).hexdigest()[:N // 4], 16)
 
-# q2)
+# for q2)
 def floyd(f,x_0,print_i=False):
 	x_i = f(x_0)
 	x_2i = f(x_i)
@@ -19,10 +19,9 @@ def floyd(f,x_0,print_i=False):
 		print("collision pour i = ",i)
 	return x_i
 
-# q3)
+# for q3)
 def find_period(f,x_i):
-	# find x_i = x_j and return j-i
-	# j-i is not always the smallest period
+	# find x_j = x_i and return j-i
 	x_j = f(x_i)
 	l = 1
 	while (x_j != x_i):
@@ -30,6 +29,7 @@ def find_period(f,x_i):
 		l += 1
 	return l
 
+# for q4)
 def comp(f,n,x_0):
 	# return f(f(...f(x_0))) with n times f
 	x_n = x_0
@@ -37,13 +37,16 @@ def comp(f,n,x_0):
 		x_n = f(x_n)
 	return x_n
 
+# for q5)
 def int_to_bin(n):
+	# retrun a list corresponding to the binary of n
 	res = []
 	while n>0:
 		res.append(n%2==1)
 		n = n//2
 	return res
 
+# for q5)
 def g(n):
 	n_bin = int_to_bin(n)
 	if len(n_bin)==N: #b0 = 1
@@ -54,10 +57,11 @@ def g(n):
 		for i in range(N-len(n_bin)):
 			n_bin.append(False)
 	for i in range(N-1):
-		if n_bin[N-2-i]:
+		if n_bin[N-2-i]:# backward because n = b0b1...bN-1 and not n=bN-1...b1b0
 			M = M[:i]+M[i].lower()+M[i+1:]
 	return M
 
+# for q5)
 def h_g(n):
 	return hash_of(g(n))
 
@@ -122,6 +126,7 @@ if __name__ == "__main__":
 			x_i = h_g(x_i)
 			x_i_plus_l = h_g(x_i_plus_l)
 		collision_found = (g(x_i).lower() != g(x_i_plus_l).lower())
+	print("x_0 = ",x_0)	
 	print("x_i = ",x_i)
 	print("x_i+l = ",x_i_plus_l)
 	print("h(x_i) = ",h_g(x_i))
